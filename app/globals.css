@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-saffron-50: #FFF7ED;
+  --color-saffron-100: #FFEDD5;
+  --color-saffron-500: #FF9933;
+  --color-saffron-600: #FF6B00;
+  
+  --color-emerald-500: #22c55e;
+  --color-emerald-600: #16a34a;
+  --color-emerald-700: #059669;
+  
+  --font-sans: var(--font-noto-sans), sans-serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: #FAFAFA;
+    --foreground: #0f172a;
+    --card: #FFFFFF;
+    --card-foreground: #0f172a;
+    --border: #f1f5f9;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    touch-action: pan-y;
+  }
+}
+
+/* Premium Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+  
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md rounded-3xl border border-white shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] transition-all duration-300;
+  }
+  
+  .glass-card:hover {
+    @apply shadow-[0_20px_50px_-10px_rgba(255,107,0,0.1)] -translate-y-1;
+  }
+  
+  .btn-premium {
+    @apply relative overflow-hidden bg-gradient-to-r from-saffron-500 to-saffron-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-[0_10px_25px_-5px_rgba(255,107,0,0.4)] transition-all duration-300 ease-out hover:shadow-[0_15px_35px_-5px_rgba(255,107,0,0.5)] hover:-translate-y-1 active:translate-y-0 active:shadow-none;
+  }
+
+  .btn-outline {
+    @apply bg-white/50 backdrop-blur-sm text-saffron-600 px-8 py-4 rounded-2xl font-bold text-lg border-2 border-saffron-500 transition-all duration-300 hover:bg-saffron-50 hover:-translate-y-1;
+  }
+
+  /* Deep subtle noise texture */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opactiy='0.05'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
