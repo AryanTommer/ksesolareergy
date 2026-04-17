@@ -11,7 +11,8 @@ import { EligibilityQuiz } from "@/components/EligibilityQuiz";
 import { Testimonials } from "@/components/Testimonials";
 import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
 import { ApplicationForm } from "@/components/ApplicationForm";
-import { FAQ, Footer } from "@/components/FAQ";
+import { FAQ } from "@/components/FAQ";
+import { Footer } from "@/components/Footer";
 import { ToastNotification } from "@/components/ToastNotification";
 
 export default function Home() {
