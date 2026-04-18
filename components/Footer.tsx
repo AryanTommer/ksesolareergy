@@ -1,8 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaLock, FaWhatsapp } from "react-icons/fa";
 
+interface Settings {
+  phone: string;
+  whatsapp: string;
+  email: string;
+}
+
 export function Footer() {
+  const [settings, setSettings] = useState<Settings>({
+    phone: "1800-XXX-XXXX",
+    whatsapp: "+91 99999-99999",
+    email: "info@suryagharup.in",
+  });
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.phone) setSettings(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const whatsappNumber = settings.whatsapp.replace(/[^0-9]/g, "");
+
   return (
     <>
       <section className="py-20 md:py-24 bg-gradient-to-br from-slate-900 to-slate-950 text-white relative">
@@ -17,7 +41,7 @@ export function Footer() {
             <a href="#apply-form" className="btn-premium px-10">
               अभी आवेदन करें
             </a>
-            <a href="https://wa.me/919999999999?text=PM सूर्य घर योजना के बारे में जानकारी चाहिए" target="_blank" className="btn-outline border-white/30 text-white hover:bg-white/10 hover:border-white/50">
+            <a href={`https://wa.me/${whatsappNumber}?text=PM सूर्य घर योजना के बारे में जानकारी चाहिए`} target="_blank" className="btn-outline border-white/30 text-white hover:bg-white/10 hover:border-white/50">
               <FaWhatsapp className="inline mr-2" /> WhatsApp पर पूछें
             </a>
           </div>
@@ -41,9 +65,9 @@ export function Footer() {
             <div>
               <h4 className="font-extrabold text-xl mb-4 text-white">संपर्क करें</h4>
               <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaPhoneAlt className="text-emerald-500" /> 1800-XXX-XXXX (टोल फ्री)</li>
-                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaWhatsapp className="text-emerald-500 text-lg" /> +91 99999-99999</li>
-                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaEnvelope className="text-saffron-500" /> info@suryagharup.in</li>
+                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaPhoneAlt className="text-emerald-500" /> {settings.phone} (टोल फ्री)</li>
+                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaWhatsapp className="text-emerald-500 text-lg" /> {settings.whatsapp}</li>
+                <li className="flex items-center gap-3 text-slate-400 font-medium"><FaEnvelope className="text-saffron-500" /> {settings.email}</li>
               </ul>
             </div>
           </div>
@@ -60,7 +84,7 @@ export function Footer() {
       </section>
 
       {/* Floating Action Button */}
-      <a href="https://wa.me/919999999999?text=मुझे PM सूर्य घर योजना के बारे में जानकारी चाहिए" target="_blank" className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center text-3xl shadow-[0_10px_30px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform group">
+      <a href={`https://wa.me/${whatsappNumber}?text=मुझे PM सूर्य घर योजना के बारे में जानकारी चाहिए`} target="_blank" className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center text-3xl shadow-[0_10px_30px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform group">
         <div className="absolute inset-0 border-2 border-[#25D366] rounded-full animate-ping opacity-75" />
         <FaWhatsapp className="relative z-10" />
       </a>

@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Application {
+  id         String   @id @default(cuid())
+  name       String
+  mobile     String
+  district   String
+  roofType   String
+  consumerId String?
+  status     String   @default("pending")
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model SiteSettings {
+  id        String   @id @default("main")
+  phone     String   @default("1800-XXX-XXXX")
+  whatsapp  String   @default("+91 99999-99999")
+  email     String   @default("info@suryagharup.in")
+  updatedAt DateTime @updatedAt
+}

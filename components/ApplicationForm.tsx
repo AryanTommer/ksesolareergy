@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaFileSignature, FaArrowRight, FaArrowLeft, FaPaperPlane, FaWhatsapp, FaLock, FaShieldAlt, FaUserShield, FaCheck } from "react-icons/fa";
 import { AnimatedSection } from "./ui/AnimatedSection";
 
@@ -10,10 +10,45 @@ export function ApplicationForm() {
     name: "", mobile: "", district: "", roofType: "", consumerId: ""
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [whatsappNumber, setWhatsappNumber] = useState("919999999999");
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.whatsapp) {
+          setWhatsappNumber(data.whatsapp.replace(/[^0-9]/g, ""));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // validation variables
   const isStep1Valid = formData.name.trim() !== "" && formData.mobile.length === 10;
   const isStep2Valid = formData.district !== "" && formData.roofType !== "";
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError("आवेदन जमा करने में त्रुटि। कृपया पुनः प्रयास करें।");
+      }
+    } catch {
+      setError("नेटवर्क त्रुटि। कृपया पुनः प्रयास करें।");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <section id="apply-form" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-br from-saffron-50 to-white">
@@ -173,18 +208,30 @@ export function ApplicationForm() {
                       </p>
                     </div>
 
+                    {error && (
+                      <div className="p-4 bg-red-50 rounded-xl border border-red-100 text-red-700 text-sm font-medium">
+                        {error}
+                      </div>
+                    )}
+
                     <div className="flex gap-4">
-                      <button 
+                      <button
                         onClick={() => setStep(2)}
-                        className="flex-1 py-4 px-2 rounded-xl font-bold flex items-center justify-center gap-2 border-2 border-slate-200 text-slate-600 hover:bg-slate-50 transition-all"
+                        disabled={submitting}
+                        className="flex-1 py-4 px-2 rounded-xl font-bold flex items-center justify-center gap-2 border-2 border-slate-200 text-slate-600 hover:bg-slate-50 transition-all disabled:opacity-50"
                       >
                         <FaArrowLeft /> पीछे
                       </button>
-                      <button 
-                        onClick={() => setSubmitted(true)}
-                        className="flex-[2.5] py-4 px-2 rounded-xl text-lg font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-[0_10px_25px_rgba(16,185,129,0.3)] hover:scale-[1.02]"
+                      <button
+                        onClick={handleSubmit}
+                        disabled={submitting}
+                        className="flex-[2.5] py-4 px-2 rounded-xl text-lg font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-[0_10px_25px_rgba(16,185,129,0.3)] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <FaPaperPlane /> आवेदन जमा करें
+                        {submitting ? (
+                          <>जमा हो रहा है...</>
+                        ) : (
+                          <><FaPaperPlane /> आवेदन जमा करें</>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -204,10 +251,10 @@ export function ApplicationForm() {
               </p>
 
               <div className="flex flex-col gap-4">
-                <a href="https://wa.me/919999999999?text=मैंने PM सूर्य घर योजना के लिए आवेदन किया है।" target="_blank" className="py-4 px-6 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                <a href={`https://wa.me/${whatsappNumber}?text=मैंने PM सूर्य घर योजना के लिए आवेदन किया है।`} target="_blank" className="py-4 px-6 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
                   <FaWhatsapp className="text-2xl" /> WhatsApp पर पुष्टि प्राप्त करें
                 </a>
-                <a href="https://wa.me/919999999999?text=मुझे PM सूर्य घर WhatsApp ग्रुप में जोड़ें" target="_blank" className="py-4 px-6 rounded-2xl font-bold bg-white text-emerald-700 border-2 border-emerald-200 hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2">
+                <a href={`https://wa.me/${whatsappNumber}?text=मुझे PM सूर्य घर WhatsApp ग्रुप में जोड़ें`} target="_blank" className="py-4 px-6 rounded-2xl font-bold bg-white text-emerald-700 border-2 border-emerald-200 hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2">
                   <FaWhatsapp className="text-xl" /> WhatsApp ग्रुप से जुड़ें
                 </a>
               </div>
