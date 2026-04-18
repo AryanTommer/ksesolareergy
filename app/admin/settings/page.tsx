@@ -7,12 +7,16 @@ import {
   FaEnvelope,
   FaSave,
   FaSpinner,
+  FaFacebook,
+  FaInstagram,
 } from "react-icons/fa";
 
 interface Settings {
   phone: string;
   whatsapp: string;
   email: string;
+  facebook: string;
+  instagram: string;
 }
 
 export default function SettingsPage() {
@@ -20,6 +24,8 @@ export default function SettingsPage() {
     phone: "",
     whatsapp: "",
     email: "",
+    facebook: "",
+    instagram: "",
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -37,6 +43,8 @@ export default function SettingsPage() {
         phone: data.phone,
         whatsapp: data.whatsapp,
         email: data.email,
+        facebook: data.facebook || "",
+        instagram: data.instagram || "",
       });
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -140,6 +148,36 @@ export default function SettingsPage() {
                 setSettings({ ...settings, email: e.target.value })
               }
               placeholder="info@suryagharup.in"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-500/20"
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
+              <FaFacebook className="text-blue-600" /> Facebook URL
+            </label>
+            <input
+              type="url"
+              value={settings.facebook}
+              onChange={(e) =>
+                setSettings({ ...settings, facebook: e.target.value })
+              }
+              placeholder="https://facebook.com/yourpage"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-500/20"
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
+              <FaInstagram className="text-pink-600" /> Instagram URL
+            </label>
+            <input
+              type="url"
+              value={settings.instagram}
+              onChange={(e) =>
+                setSettings({ ...settings, instagram: e.target.value })
+              }
+              placeholder="https://instagram.com/yourpage"
               className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-500/20"
             />
           </div>

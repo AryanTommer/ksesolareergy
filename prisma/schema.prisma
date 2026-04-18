@@ -35,5 +35,7 @@ model SiteSettings {
   phone     String   @default("1800-XXX-XXXX")
   whatsapp  String   @default("+91 99999-99999")
   email     String   @default("info@suryagharup.in")
+  facebook  String   @default("")
+  instagram String   @default("")
   updatedAt DateTime @updatedAt
 }

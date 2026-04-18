@@ -7,6 +7,8 @@ const updateSettingsSchema = z.object({
   phone: z.string().min(1).optional(),
   whatsapp: z.string().min(1).optional(),
   email: z.string().email().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
 });
 
 export async function GET() {

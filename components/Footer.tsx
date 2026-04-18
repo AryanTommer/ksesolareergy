@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaPhoneAlt, FaEnvelope, FaLock, FaWhatsapp } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaLock, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 
 interface Settings {
   phone: string;
   whatsapp: string;
   email: string;
+  facebook: string;
+  instagram: string;
 }
 
 export function Footer() {
@@ -14,6 +16,8 @@ export function Footer() {
     phone: "1800-XXX-XXXX",
     whatsapp: "+91 99999-99999",
     email: "info@suryagharup.in",
+    facebook: "",
+    instagram: "",
   });
 
   useEffect(() => {
@@ -68,6 +72,14 @@ export function Footer() {
                 <li className="flex items-center gap-3 text-slate-400 font-medium"><FaPhoneAlt className="text-emerald-500" /> {settings.phone} (टोल फ्री)</li>
                 <li className="flex items-center gap-3 text-slate-400 font-medium"><FaWhatsapp className="text-emerald-500 text-lg" /> {settings.whatsapp}</li>
                 <li className="flex items-center gap-3 text-slate-400 font-medium"><FaEnvelope className="text-saffron-500" /> {settings.email}</li>
+                <li className="flex items-center gap-4 mt-4">
+                  <a href={settings.facebook || "#"} target="_blank" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                    <FaFacebook className="text-white text-lg" />
+                  </a>
+                  <a href={settings.instagram || "#"} target="_blank" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+                    <FaInstagram className="text-white text-lg" />
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
