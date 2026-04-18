@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaSun, FaShieldAlt, FaLock, FaCertificate, FaUsers, FaBolt, FaBars, FaTimes } from "react-icons/fa";
+import { FaShieldAlt, FaLock, FaCertificate, FaUsers, FaBolt, FaBars, FaTimes } from "react-icons/fa";
+import { KSELogo } from "./KSELogo";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -44,9 +45,7 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-5 w-full flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 relative z-[102]" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-saffron-500 to-saffron-600 flex items-center justify-center shadow-lg shadow-saffron-500/30">
-              <FaSun className="text-white text-lg md:text-xl" />
-            </div>
+            <KSELogo className="w-10 h-10 md:w-12 md:h-12" />
             <div>
               <div className="font-extrabold text-sm md:text-base text-slate-900 leading-tight">PM सूर्य घर</div>
               <div className="text-xs md:text-sm text-slate-500 font-medium">उत्तर प्रदेश</div>

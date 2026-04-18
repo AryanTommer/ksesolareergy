@@ -16,6 +16,10 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "PM सूर्य घर योजना - उत्तर प्रदेश | ₹0 में सोलर पैनल लगवाएं",
   description: "PM सूर्य घर मुफ्त बिजली योजना UP - 60% सरकारी सब्सिडी, 25 साल फ्री बिजली, ₹17,500/साल कमाई। अभी आवेदन करें।",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.svg",
+  },
 };
 
 export const viewport: Viewport = {

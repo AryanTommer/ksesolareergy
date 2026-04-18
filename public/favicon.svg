@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="32" height="32">
+  <circle cx="250" cy="250" r="240" fill="#FFFFFF" />
+  <circle cx="250" cy="250" r="240" fill="none" stroke="#E0E0E0" stroke-width="8"/>
+  <g>
+    <text x="25" y="345" style="font-family: Arial Black, Impact, sans-serif; font-weight: 900; font-size: 220px; font-style: italic; fill: #1A315A; letter-spacing: -5px;">K</text>
+    <text x="165" y="345" style="font-family: Arial Black, Impact, sans-serif; font-weight: 900; font-size: 220px; font-style: italic; fill: #1A315A; letter-spacing: -5px;">S</text>
+    <text x="290" y="345" style="font-family: Arial Black, Impact, sans-serif; font-weight: 900; font-size: 220px; font-style: italic; fill: #1A315A; letter-spacing: -5px;">E</text>
+    <path d="M 400 140 L 310 260 L 345 260 L 270 400 L 325 240 L 290 240 Z" fill="#69C545" />
+  </g>
+</svg>
