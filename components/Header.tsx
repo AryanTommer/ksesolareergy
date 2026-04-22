@@ -47,8 +47,8 @@ export function Header() {
           <Link href="/" className="flex items-center gap-3 relative z-[102]" onClick={() => setIsMobileMenuOpen(false)}>
             <KSELogo className="w-10 h-10 md:w-12 md:h-12" />
             <div>
-              <div className="font-extrabold text-sm md:text-base text-slate-900 leading-tight">PM सूर्य घर</div>
-              <div className="text-xs md:text-sm text-slate-500 font-medium">उत्तर प्रदेश</div>
+              <div className="font-extrabold text-sm md:text-base text-slate-900 leading-tight">KSE Solar Energy</div>
+              <div className="text-xs md:text-sm text-slate-500 font-medium">Pvt Ltd</div>
             </div>
           </Link>
 
