@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Devanagari, Outfit } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "@/components/CustomCursor";
 
 const notoSans = Noto_Sans_Devanagari({
   variable: "--font-noto-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body
         className={`${notoSans.variable} ${outfit.variable} antialiased font-sans flex flex-col min-h-screen relative`}
       >
+        <CustomCursor />
         <div className="bg-noise mix-blend-overlay"></div>
         {children}
       </body>
