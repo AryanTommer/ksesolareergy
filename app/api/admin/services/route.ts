@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     const service = await prisma.service.create({ data });
 
-    revalidateTag("services");
+    revalidateTag("services", "max");
 
     return NextResponse.json(service, { status: 201 });
   } catch (error) {

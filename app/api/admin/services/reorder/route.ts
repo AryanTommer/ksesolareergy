@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       )
     );
 
-    revalidateTag("services");
+    revalidateTag("services", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

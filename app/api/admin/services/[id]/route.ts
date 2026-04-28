@@ -61,7 +61,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       data,
     });
 
-    revalidateTag("services");
+    revalidateTag("services", "max");
 
     return NextResponse.json(service);
   } catch (error) {
@@ -76,7 +76,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
 
     await prisma.service.delete({ where: { id } });
 
-    revalidateTag("services");
+    revalidateTag("services", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, use, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { FaSave, FaArrowLeft, FaSpinner, FaTrash } from "react-icons/fa";
 import {
@@ -11,6 +11,7 @@ import {
   FAQEditor,
 } from "@/components/admin";
 import { ServiceFeature, ProcessStep, FAQ } from "@/lib/validation/service";
+import { useAutosave } from "@/hooks/useAutosave";
 
 const iconOptions = ["🔧", "⚡", "🏠", "📋", "💡", "🛠️", "📊", "🔌", "☀️", "🔋"];
 const colorOptions = ["saffron", "emerald", "blue", "slate", "rose", "purple"];
@@ -44,6 +45,19 @@ export default function EditServicePage({
     ctaLink: "",
     status: "draft",
     isFeatured: false,
+    metaTitle: "",
+    metaDescription: "",
+  });
+
+  const handleRestore = useCallback((restored: typeof formData) => {
+    setFormData(restored);
+  }, []);
+
+  const { clearAutosave } = useAutosave({
+    key: `service-edit-${id}`,
+    data: formData,
+    onRestore: handleRestore,
+    enabled: !loading,
   });
 
   useEffect(() => {
@@ -76,6 +90,8 @@ export default function EditServicePage({
           ctaLink: service.ctaLink || "",
           status: service.status || "draft",
           isFeatured: service.isFeatured || false,
+          metaTitle: service.metaTitle || "",
+          metaDescription: service.metaDescription || "",
         });
         setLoading(false);
       })
@@ -109,6 +125,7 @@ export default function EditServicePage({
         throw new Error(data.error || "Failed to update service");
       }
 
+      clearAutosave();
       router.push("/admin/services");
     } catch (error) {
       console.error("Save error:", error);
@@ -359,6 +376,40 @@ export default function EditServicePage({
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                 placeholder="e.g., /contact"
               />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-lg font-bold text-slate-800 mb-4">SEO Settings</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Meta Title <span className="text-slate-400">(max 60 chars)</span>
+              </label>
+              <input
+                type="text"
+                value={formData.metaTitle}
+                onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                placeholder="Custom title for search engines"
+                maxLength={60}
+              />
+              <p className="text-xs text-slate-400 mt-1">{formData.metaTitle.length}/60</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Meta Description <span className="text-slate-400">(max 160 chars)</span>
+              </label>
+              <textarea
+                value={formData.metaDescription}
+                onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 resize-none"
+                placeholder="Custom description for search engines"
+                maxLength={160}
+                rows={2}
+              />
+              <p className="text-xs text-slate-400 mt-1">{formData.metaDescription.length}/160</p>
             </div>
           </div>
         </div>

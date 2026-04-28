@@ -59,8 +59,8 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       data,
     });
 
-    revalidateTag("categories");
-    revalidateTag("products");
+    revalidateTag("categories", "max");
+    revalidateTag("products", "max");
 
     return NextResponse.json(category);
   } catch (error) {
@@ -88,7 +88,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
 
     await prisma.productCategory.delete({ where: { id } });
 
-    revalidateTag("categories");
+    revalidateTag("categories", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

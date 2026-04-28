@@ -58,7 +58,7 @@ export async function PATCH(request: NextRequest) {
       },
     });
 
-    revalidateTag("about");
+    revalidateTag("about", "max");
 
     return NextResponse.json(aboutPage);
   } catch (error) {

@@ -43,8 +43,8 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       data,
     });
 
-    revalidateTag("team");
-    revalidateTag("about");
+    revalidateTag("team", "max");
+    revalidateTag("about", "max");
 
     return NextResponse.json(teamMember);
   } catch (error) {
@@ -59,8 +59,8 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
 
     await prisma.teamMember.delete({ where: { id } });
 
-    revalidateTag("team");
-    revalidateTag("about");
+    revalidateTag("team", "max");
+    revalidateTag("about", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

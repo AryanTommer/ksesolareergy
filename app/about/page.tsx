@@ -1,15 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
 import { FaHeart, FaCheckCircle, FaUsers, FaLeaf, FaShieldAlt, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
-export const metadata = {
-  title: "हमारे बारे में | PM सूर्य घर योजना",
-  description: "जानें कि कैसे हम PM सूर्य घर योजना के माध्यम से उत्तर प्रदेश को रोशन कर रहे हैं।",
-};
+const SITE_NAME = "PM सूर्य घर योजना";
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const aboutPage = await prisma.aboutPage.findUnique({ where: { id: "main" } });
+    return {
+      title: aboutPage?.metaTitle || `हमारे बारे में | ${SITE_NAME}`,
+      description: aboutPage?.metaDescription || "जानें कि कैसे हम PM सूर्य घर योजना के माध्यम से उत्तर प्रदेश को रोशन कर रहे हैं।",
+    };
+  } catch {
+    return {
+      title: `हमारे बारे में | ${SITE_NAME}`,
+      description: "जानें कि कैसे हम PM सूर्य घर योजना के माध्यम से उत्तर प्रदेश को रोशन कर रहे हैं।",
+    };
+  }
+}
 
 interface AboutPageData {
   heroEnabled: boolean;

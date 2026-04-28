@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FaSave, FaSpinner, FaChevronDown, FaChevronUp, FaPlus, FaTrash } from "react-icons/fa";
 import { RichTextEditor, ImageUploader } from "@/components/admin";
 import { Stat, Value } from "@/lib/validation/about";
+import { useAutosave } from "@/hooks/useAutosave";
 
 interface AboutPageData {
   heroEnabled: boolean;
@@ -33,6 +34,8 @@ interface AboutPageData {
   ctaDescription: string;
   ctaButtonText: string;
   ctaButtonLink: string;
+  metaTitle: string;
+  metaDescription: string;
 }
 
 const defaultData: AboutPageData = {
@@ -63,6 +66,8 @@ const defaultData: AboutPageData = {
   ctaDescription: "",
   ctaButtonText: "",
   ctaButtonLink: "",
+  metaTitle: "",
+  metaDescription: "",
 };
 
 const colorOptions = ["saffron", "emerald", "blue", "slate"] as const;
@@ -79,6 +84,17 @@ export default function AboutEditorPage() {
     values: false,
     team: false,
     cta: false,
+  });
+
+  const handleRestore = useCallback((restored: AboutPageData) => {
+    setData(restored);
+  }, []);
+
+  const { clearAutosave } = useAutosave({
+    key: "about-page",
+    data,
+    onRestore: handleRestore,
+    enabled: !loading,
   });
 
   useEffect(() => {
@@ -116,6 +132,7 @@ export default function AboutEditorPage() {
 
       if (!response.ok) throw new Error("Failed to save");
 
+      clearAutosave();
       setMessage("सफलतापूर्वक सेव हो गया!");
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
@@ -547,6 +564,41 @@ export default function AboutEditorPage() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* SEO Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-lg font-bold text-slate-800 mb-4">SEO Settings</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Meta Title <span className="text-slate-400">(max 60 chars)</span>
+              </label>
+              <input
+                type="text"
+                value={data.metaTitle}
+                onChange={(e) => setData({ ...data, metaTitle: e.target.value })}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg"
+                placeholder="Custom title for search engines"
+                maxLength={60}
+              />
+              <p className="text-xs text-slate-400 mt-1">{data.metaTitle.length}/60</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Meta Description <span className="text-slate-400">(max 160 chars)</span>
+              </label>
+              <textarea
+                value={data.metaDescription}
+                onChange={(e) => setData({ ...data, metaDescription: e.target.value })}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg resize-none"
+                placeholder="Custom description for search engines"
+                maxLength={160}
+                rows={2}
+              />
+              <p className="text-xs text-slate-400 mt-1">{data.metaDescription.length}/160</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

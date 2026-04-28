@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
       include: { category: true },
     });
 
-    revalidateTag("products");
+    revalidateTag("products", "max");
 
     return NextResponse.json(product, { status: 201 });
   } catch (error) {

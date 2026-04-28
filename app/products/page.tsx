@@ -1,15 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
 import { FaSolarPanel, FaIndustry, FaChargingStation, FaCarBattery, FaCheckCircle } from "react-icons/fa";
 
-export const metadata = {
-  title: "हमारे उत्पाद | PM सूर्य घर योजना",
-  description: "उच्च गुणवत्ता वाले सोलर पैनल, इन्वर्टर, बैटरी और स्ट्रक्चर।",
-};
+const SITE_NAME = "PM सूर्य घर योजना";
+
+export function generateMetadata(): Metadata {
+  return {
+    title: `हमारे उत्पाद | ${SITE_NAME}`,
+    description: "उच्च गुणवत्ता वाले सोलर पैनल, इन्वर्टर, बैटरी और स्ट्रक्चर।",
+  };
+}
 
 interface Product {
   id: string;

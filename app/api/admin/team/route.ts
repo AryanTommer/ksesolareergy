@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
       data: parsed.data,
     });
 
-    revalidateTag("team");
-    revalidateTag("about");
+    revalidateTag("team", "max");
+    revalidateTag("about", "max");
 
     return NextResponse.json(teamMember, { status: 201 });
   } catch (error) {

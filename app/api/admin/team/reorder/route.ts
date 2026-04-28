@@ -28,18 +28,19 @@ export async function POST(request: NextRequest) {
 
     await prisma.$transaction(
       items.map((item) =>
-        prisma.product.update({
+        prisma.teamMember.update({
           where: { id: item.id },
           data: { order: item.order },
         })
       )
     );
 
-    revalidateTag("products", "max");
+    revalidateTag("team", "max");
+    revalidateTag("about", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Reorder error:", error);
-    return NextResponse.json({ error: "Failed to reorder products" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to reorder team members" }, { status: 500 });
   }
 }

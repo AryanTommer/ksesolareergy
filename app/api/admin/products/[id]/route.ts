@@ -77,7 +77,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       include: { category: true },
     });
 
-    revalidateTag("products");
+    revalidateTag("products", "max");
 
     return NextResponse.json(product);
   } catch (error) {
@@ -92,7 +92,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
 
     await prisma.product.delete({ where: { id } });
 
-    revalidateTag("products");
+    revalidateTag("products", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

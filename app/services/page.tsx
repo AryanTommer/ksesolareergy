@@ -1,15 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
 import { FaSolarPanel, FaBroom, FaWrench, FaBolt, FaBatteryFull, FaTools } from "react-icons/fa";
 
-export const metadata = {
-  title: "हमारी सेवाएँ | PM सूर्य घर योजना",
-  description: "सोलर पैनल इंस्टॉलेशन, सफाई, रखरखाव और बैटरी रिपेयरिंग जैसी हमारी प्रीमियम सेवाएँ।",
-};
+const SITE_NAME = "PM सूर्य घर योजना";
+
+export function generateMetadata(): Metadata {
+  return {
+    title: `हमारी सेवाएँ | ${SITE_NAME}`,
+    description: "सोलर पैनल इंस्टॉलेशन, सफाई, रखरखाव और बैटरी रिपेयरिंग जैसी हमारी प्रीमियम सेवाएँ।",
+  };
+}
 
 interface Service {
   id: string;
