@@ -9,6 +9,7 @@ const updateSettingsSchema = z.object({
   email: z.string().email().optional(),
   facebook: z.string().optional(),
   instagram: z.string().optional(),
+  youtube: z.string().optional(),
 });
 
 export async function GET() {

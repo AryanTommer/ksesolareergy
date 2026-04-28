@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaPhoneAlt, FaEnvelope, FaLock, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaLock, FaWhatsapp, FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 interface Settings {
   phone: string;
@@ -9,6 +9,7 @@ interface Settings {
   email: string;
   facebook: string;
   instagram: string;
+  youtube: string;
 }
 
 export function Footer() {
@@ -18,6 +19,7 @@ export function Footer() {
     email: "info@suryagharup.in",
     facebook: "",
     instagram: "",
+    youtube: "",
   });
 
   useEffect(() => {
@@ -78,6 +80,9 @@ export function Footer() {
                   </a>
                   <a href={settings.instagram || "#"} target="_blank" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
                     <FaInstagram className="text-white text-lg" />
+                  </a>
+                  <a href={settings.youtube || "#"} target="_blank" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                    <FaYoutube className="text-white text-lg" />
                   </a>
                 </li>
               </ul>
