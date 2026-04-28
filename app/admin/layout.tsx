@@ -11,11 +11,17 @@ import {
   FaSignOutAlt,
   FaBars,
   FaTimes,
+  FaBox,
+  FaTools,
+  FaInfoCircle,
 } from "react-icons/fa";
 
 const navItems = [
   { href: "/admin", label: "डैशबोर्ड", icon: FaHome },
   { href: "/admin/applications", label: "आवेदन", icon: FaClipboardList },
+  { href: "/admin/products", label: "उत्पाद", icon: FaBox },
+  { href: "/admin/services", label: "सेवाएं", icon: FaTools },
+  { href: "/admin/about", label: "हमारे बारे में", icon: FaInfoCircle },
   { href: "/admin/settings", label: "सेटिंग्स", icon: FaCog },
 ];
 

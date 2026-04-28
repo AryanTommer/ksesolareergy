@@ -9,6 +9,7 @@ import {
   FaSpinner,
   FaFacebook,
   FaInstagram,
+  FaYoutube,
 } from "react-icons/fa";
 
 interface Settings {
@@ -17,6 +18,7 @@ interface Settings {
   email: string;
   facebook: string;
   instagram: string;
+  youtube: string;
 }
 
 export default function SettingsPage() {
@@ -26,6 +28,7 @@ export default function SettingsPage() {
     email: "",
     facebook: "",
     instagram: "",
+    youtube: "",
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -45,6 +48,7 @@ export default function SettingsPage() {
         email: data.email,
         facebook: data.facebook || "",
         instagram: data.instagram || "",
+        youtube: data.youtube || "",
       });
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -178,6 +182,21 @@ export default function SettingsPage() {
                 setSettings({ ...settings, instagram: e.target.value })
               }
               placeholder="https://instagram.com/yourpage"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-500/20"
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
+              <FaYoutube className="text-red-600" /> YouTube Channel URL
+            </label>
+            <input
+              type="url"
+              value={settings.youtube}
+              onChange={(e) =>
+                setSettings({ ...settings, youtube: e.target.value })
+              }
+              placeholder="https://youtube.com/@yourchannel"
               className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-saffron-500 focus:ring-2 focus:ring-saffron-500/20"
             />
           </div>
