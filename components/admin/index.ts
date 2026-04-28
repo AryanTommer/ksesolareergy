@@ -4,3 +4,6 @@ export { CardStylePicker } from "./CardStylePicker";
 export { SpecsEditor } from "./SpecsEditor";
 export { BadgeEditor } from "./BadgeEditor";
 export { FeaturesEditor } from "./FeaturesEditor";
+export { ProcessEditor } from "./ProcessEditor";
+export { FAQEditor } from "./FAQEditor";
+export { ServiceFeaturesEditor } from "./ServiceFeaturesEditor";
