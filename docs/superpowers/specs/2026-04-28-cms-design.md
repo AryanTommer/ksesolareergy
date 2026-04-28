@@ -108,13 +108,7 @@ model Product {
   publishedAt   DateTime?
   scheduledAt   DateTime?
   
-  // Versioning
-  version       Int      @default(1)
-  revisions     ProductRevision[]
-  
   // Audit
-  createdBy     String?
-  updatedBy     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -129,19 +123,6 @@ model ProductRelation {
   related     Product  @relation("RelatedProducts", fields: [relatedId], references: [id], onDelete: Cascade)
   
   @@unique([productId, relatedId])
-}
-
-model ProductRevision {
-  id          String   @id @default(cuid())
-  productId   String
-  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  version     Int
-  data        Json
-  changedBy   String?
-  changeNote  String?  @db.VarChar(200)
-  createdAt   DateTime @default(now())
-  
-  @@index([productId, version])
 }
 ```
 
@@ -194,32 +175,9 @@ model Service {
   isActive      Boolean  @default(true)
   isFeatured    Boolean  @default(false)
   
-  // Publishing
-  publishedAt   DateTime?
-  scheduledAt   DateTime?
-  
-  // Versioning
-  version       Int      @default(1)
-  revisions     ServiceRevision[]
-  
   // Audit
-  createdBy     String?
-  updatedBy     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
-
-model ServiceRevision {
-  id          String   @id @default(cuid())
-  serviceId   String
-  service     Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  version     Int
-  data        Json
-  changedBy   String?
-  changeNote  String?
-  createdAt   DateTime @default(now())
-  
-  @@index([serviceId, version])
 }
 ```
 
@@ -275,8 +233,6 @@ model AboutPage {
   ogImage         String?
   
   // Audit
-  version         Int      @default(1)
-  updatedBy       String?
   updatedAt       DateTime @updatedAt
 }
 
@@ -327,21 +283,6 @@ model IconLibrary {
   category  String
   keywords  String[] @default([])
   createdAt DateTime @default(now())
-}
-
-model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String
-  userEmail   String
-  action      String
-  entityType  String
-  entityId    String
-  entityTitle String?  @db.VarChar(200)
-  changes     Json?
-  createdAt   DateTime @default(now())
-  
-  @@index([entityType, entityId])
-  @@index([createdAt])
 }
 ```
 
@@ -516,23 +457,21 @@ const cardImageRequirements = {
 - localStorage backup on network failure
 - Recovery banner on next session
 
-### Revision History
-- Last 10 revisions stored per item
-- View diff between versions
-- One-click restore with backup
+### Live Preview
+- Preview panel in editor (local only)
 
-### Content Locking
-- Warn if another user is editing
-- Lock expires after 5 minutes of inactivity
+### Drag-to-Reorder
+- Reorder products/services by dragging
 
-### Preview Mode
-- Live preview panel in editor
-- Share preview link (time-limited, authenticated)
+---
 
-### Bulk Operations
-- Select multiple items
-- Bulk publish/archive/delete
-- Bulk reorder with drag-drop
+## Deferred Features (Future Enhancement)
+
+- Revision history with restore
+- Content locking for simultaneous edits
+- Bulk operations (multi-select publish/delete)
+- Shareable preview links
+- Scheduled publishing
 
 ---
 
@@ -665,51 +604,44 @@ if (product.isFeatured) revalidatePath('/');
 
 ---
 
-## Implementation Phases
+## Implementation Phases (Reduced Scope)
 
-### Phase 1: Foundation (5 days)
-- [ ] Database migration (all models)
+### Phase 1: Foundation (3 days)
+- [ ] Database migration (all models, no revisions)
 - [ ] Vercel Blob setup and upload API
 - [ ] TipTap editor with sanitization
 - [ ] Zod validation schemas
-- [ ] Icon library seeding
 
-### Phase 2: Product CMS (5 days)
+### Phase 2: Product CMS (4 days)
 - [ ] Product list page with filters
 - [ ] Product create/edit form
 - [ ] Card style picker component
-- [ ] Specs/badges editors
+- [ ] Specs/badges/features editors
 - [ ] Category management
-- [ ] Related products
+- [ ] Drag-to-reorder
 
-### Phase 3: Service CMS (3 days)
+### Phase 3: Service CMS (2 days)
 - [ ] Service list page
 - [ ] Service create/edit form
-- [ ] Process steps editor
-- [ ] FAQ editor
+- [ ] Features/process/FAQ editors
 
 ### Phase 4: About Page CMS (2 days)
 - [ ] Section-based editor
-- [ ] Stats editor
-- [ ] Values editor
+- [ ] Stats/values editors
 - [ ] Team management
 
-### Phase 5: Advanced Features (5 days)
-- [ ] Autosave with recovery
-- [ ] Revision history
-- [ ] Bulk operations
-- [ ] Preview mode
-- [ ] Audit logging
-- [ ] Schema.org generation
-
-### Phase 6: Frontend Integration (3 days)
-- [ ] Update /products page
-- [ ] Update /services page
-- [ ] Update /about page
+### Phase 5: Frontend Integration (2 days)
+- [ ] Update /products page to fetch from DB
+- [ ] Update /services page to fetch from DB
+- [ ] Update /about page to fetch from DB
 - [ ] Caching and revalidation
+
+### Phase 6: Polish (1 day)
+- [ ] Autosave with localStorage recovery
+- [ ] Live preview in editor
 - [ ] SEO meta tags
 
-**Total: ~23 days**
+**Total: ~14 days**
 
 ---
 
@@ -773,11 +705,10 @@ if (product.isFeatured) revalidatePath('/');
 
 | Risk | Mitigation |
 |------|------------|
-| Data loss | Autosave + localStorage backup + revision history |
+| Data loss | Autosave + localStorage backup |
 | XSS attacks | sanitize-html (server) + DOMPurify (client) |
 | Large images | Server-side resize before upload |
 | Slow pages | ISR caching + blur placeholders |
-| Simultaneous edits | Content locking with warning |
 
 ---
 
