@@ -99,3 +99,88 @@ model Product {
   @@index([status, isActive])
   @@index([categoryId])
 }
+
+model Service {
+  id              String   @id @default(cuid())
+  title           String   @db.VarChar(100)
+  titleEn         String?  @db.VarChar(100)
+  slug            String   @unique
+  tagline         String?  @db.VarChar(200)
+  description     String   @db.Text
+  excerpt         String?  @db.VarChar(300)
+  icon            String
+  iconColor       String   @default("saffron")
+  image           String?
+  imageAlt        String?  @db.VarChar(150)
+  imageWidth      Int?
+  imageHeight     Int?
+  blurDataUrl     String?  @db.Text
+  features        Json?
+  process         Json?
+  faqs            Json?
+  priceDisplay    String?  @db.VarChar(50)
+  ctaText         String?  @db.VarChar(50)
+  ctaLink         String?  @db.VarChar(500)
+  metaTitle       String?  @db.VarChar(60)
+  metaDescription String?  @db.VarChar(160)
+  ogImage         String?
+  relatedProducts String[] @default([])
+  order           Int      @default(0)
+  status          String   @default("draft")
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AboutPage {
+  id              String   @id @default("main")
+  heroEnabled     Boolean  @default(true)
+  heroTagline     String?  @db.VarChar(50)
+  heroTitle       String   @db.VarChar(100)
+  heroHighlight   String?  @db.VarChar(50)
+  heroDescription String?  @db.Text
+  heroImage       String?
+  heroImageAlt    String?  @db.VarChar(150)
+  heroBlurDataUrl String?  @db.Text
+  statsEnabled    Boolean  @default(true)
+  statsTitle      String?  @db.VarChar(100)
+  stats           Json?
+  missionEnabled  Boolean  @default(true)
+  missionTitle    String?  @db.VarChar(100)
+  missionContent  String?  @db.Text
+  missionImage    String?
+  missionImageAlt String?
+  valuesEnabled   Boolean  @default(true)
+  valuesTitle     String?  @db.VarChar(100)
+  valuesSubtitle  String?  @db.VarChar(200)
+  values          Json?
+  teamEnabled     Boolean  @default(false)
+  teamTitle       String?  @db.VarChar(100)
+  teamSubtitle    String?  @db.VarChar(200)
+  ctaEnabled      Boolean  @default(true)
+  ctaTitle        String?  @db.VarChar(100)
+  ctaDescription  String?  @db.VarChar(300)
+  ctaButtonText   String?  @db.VarChar(50)
+  ctaButtonLink   String?  @db.VarChar(500)
+  metaTitle       String?  @db.VarChar(60)
+  metaDescription String?  @db.VarChar(160)
+  ogImage         String?
+  updatedAt       DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(100)
+  role        String   @db.VarChar(100)
+  bio         String?  @db.Text
+  image       String?
+  imageAlt    String?
+  blurDataUrl String?
+  linkedin    String?
+  email       String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
