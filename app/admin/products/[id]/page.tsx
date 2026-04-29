@@ -66,7 +66,19 @@ export default function EditProductPage({
     enabled: !loading,
   });
 
+  const isNew = id === "new";
+
   useEffect(() => {
+    if (isNew) {
+      fetch("/api/admin/categories")
+        .then((res) => res.json())
+        .then((cats) => {
+          setCategories(cats || []);
+          setLoading(false);
+        });
+      return;
+    }
+
     Promise.all([
       fetch(`/api/admin/products/${id}`).then((res) => res.json()),
       fetch("/api/admin/categories").then((res) => res.json()),
@@ -110,31 +122,38 @@ export default function EditProductPage({
         console.error("Failed to load product:", error);
         router.push("/admin/products");
       });
-  }, [id, router]);
+  }, [id, isNew, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      const payload = {
+      const payload: Record<string, unknown> = {
         ...formData,
-        image: formData.image?.url || null,
+        image: formData.image?.url || undefined,
         imageWidth: formData.image?.width,
         imageHeight: formData.image?.height,
         blurDataUrl: formData.image?.blurDataUrl,
-        categoryId: formData.categoryId || null,
       };
+      if (formData.categoryId) {
+        payload.categoryId = formData.categoryId;
+      } else {
+        delete payload.categoryId;
+      }
 
-      const response = await fetch(`/api/admin/products/${id}`, {
-        method: "PATCH",
+      const url = isNew ? "/api/admin/products" : `/api/admin/products/${id}`;
+      const method = isNew ? "POST" : "PATCH";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Failed to update product");
+        throw new Error(data.error || `Failed to ${isNew ? "create" : "update"} product`);
       }
 
       clearAutosave();

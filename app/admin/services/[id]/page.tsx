@@ -60,7 +60,14 @@ export default function EditServicePage({
     enabled: !loading,
   });
 
+  const isNew = id === "new";
+
   useEffect(() => {
+    if (isNew) {
+      setLoading(false);
+      return;
+    }
+
     fetch(`/api/admin/services/${id}`)
       .then((res) => res.json())
       .then((service) => {
@@ -99,7 +106,7 @@ export default function EditServicePage({
         console.error("Failed to load service:", error);
         router.push("/admin/services");
       });
-  }, [id, router]);
+  }, [id, isNew, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,15 +121,18 @@ export default function EditServicePage({
         blurDataUrl: formData.image?.blurDataUrl,
       };
 
-      const response = await fetch(`/api/admin/services/${id}`, {
-        method: "PATCH",
+      const url = isNew ? "/api/admin/services" : `/api/admin/services/${id}`;
+      const method = isNew ? "POST" : "PATCH";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Failed to update service");
+        throw new Error(data.error || `Failed to ${isNew ? "create" : "update"} service`);
       }
 
       clearAutosave();

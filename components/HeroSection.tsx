@@ -4,8 +4,6 @@ import Image from "next/image";
 import { FaCheckCircle, FaBolt, FaCalculator, FaClock, FaUserCheck, FaFire } from "react-icons/fa";
 import { AnimatedSection } from "./ui/AnimatedSection";
 import heroImg from "@/public/images/premium_hero_solar.png";
-import modiImg from "@/public/images/portrait_modi.png";
-import yogiImg from "@/public/images/portrait_yogi.png";
 
 export function HeroSection() {
   return (
@@ -15,58 +13,13 @@ export function HeroSection() {
         <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-gradient-to-bl from-saffron-400 to-emerald-100 blur-3xl mix-blend-multiply" />
       </div>
 
-      {/* ═══════ Leader Endorsement Bar — Always visible on mobile ═══════ */}
+      {/* ═══════ Brand Endorsement Bar ═══════ */}
       <AnimatedSection direction="up" delay={0.05}>
         <div className="max-w-7xl mx-auto px-5 mb-6 md:mb-10">
-          <div className="flex items-center justify-center gap-4 sm:gap-6 bg-gradient-to-r from-saffron-50 via-white to-saffron-50 border border-saffron-200/60 rounded-2xl sm:rounded-full px-4 sm:px-8 py-3 sm:py-4 shadow-[0_4px_20px_rgba(249,115,22,0.12)]">
-            {/* Modi Portrait */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden ring-[3px] ring-saffron-400 ring-offset-2 ring-offset-white shadow-lg flex-shrink-0">
-                <Image
-                  src={modiImg}
-                  alt="प्रधानमंत्री"
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-              <div className="hidden sm:block">
-                <p className="font-extrabold text-slate-900 text-xs sm:text-sm leading-tight">माननीय प्रधानमंत्री</p>
-                <p className="text-[10px] sm:text-xs text-saffron-600 font-bold">केंद्र सरकार</p>
-              </div>
-            </div>
-
-            {/* Center Divider + Scheme Name */}
-            <div className="flex flex-col items-center gap-0.5 px-2 sm:px-4">
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-[3px] bg-saffron-500 rounded-full" />
-                <div className="w-3 h-[3px] bg-white rounded-full border border-slate-200" />
-                <div className="w-3 h-[3px] bg-emerald-500 rounded-full" />
-              </div>
-              <span className="text-[9px] sm:text-[11px] font-extrabold text-slate-500 tracking-wider uppercase mt-1">सरकारी योजना</span>
-            </div>
-
-            {/* Yogi Portrait */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="hidden sm:block text-right">
-                <p className="font-extrabold text-slate-900 text-xs sm:text-sm leading-tight">माननीय मुख्यमंत्री</p>
-                <p className="text-[10px] sm:text-xs text-saffron-600 font-bold">उत्तर प्रदेश</p>
-              </div>
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden ring-[3px] ring-saffron-400 ring-offset-2 ring-offset-white shadow-lg flex-shrink-0">
-                <Image
-                  src={yogiImg}
-                  alt="मुख्यमंत्री"
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-            </div>
-          </div>
-          {/* Labels visible only on mobile (below the portraits) */}
-          <div className="flex justify-between px-6 mt-2 sm:hidden">
-            <span className="text-[10px] font-bold text-slate-600">माननीय प्रधानमंत्री</span>
-            <span className="text-[10px] font-bold text-slate-600">माननीय मुख्यमंत्री</span>
+          <div className="flex items-center justify-center bg-gradient-to-r from-saffron-50 via-white to-saffron-50 border border-saffron-200/60 rounded-2xl sm:rounded-full px-6 py-4 sm:py-5 shadow-[0_4px_20px_rgba(249,115,22,0.12)]">
+            <span className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-saffron-600 to-saffron-500 tracking-wide uppercase">
+              KSE SOLAR ENERGY
+            </span>
           </div>
         </div>
       </AnimatedSection>
@@ -133,14 +86,13 @@ export function HeroSection() {
 
         {/* Image Content with floating leader portraits on desktop */}
         <AnimatedSection direction="left" delay={0.3} className="relative mt-8 md:mt-0 w-full">
-          <div className="relative w-full aspect-[4/5] md:aspect-square lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group border border-white/40">
+          <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl group border border-white/40">
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 rounded-3xl pointer-events-none" />
             <Image 
               src={heroImg} 
               alt="PM सूर्य घर योजना — सोलर पैनल वाला भारतीय घर"
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-auto transition-transform duration-700 ease-out group-hover:scale-105"
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />

@@ -106,6 +106,8 @@ export default function AboutEditorPage() {
           ...pageData,
           stats: pageData.stats || [],
           values: pageData.values || [],
+          metaTitle: pageData.metaTitle || "",
+          metaDescription: pageData.metaDescription || "",
         });
         setLoading(false);
       })
