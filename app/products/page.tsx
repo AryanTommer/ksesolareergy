@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 import { FaSolarPanel, FaIndustry, FaChargingStation, FaCarBattery, FaCheckCircle } from "react-icons/fa";
 
 const SITE_NAME = "PM सूर्य घर योजना";
@@ -34,17 +35,21 @@ interface Product {
   ctaLink: string | null;
 }
 
-async function getProducts(): Promise<Product[]> {
-  try {
-    const products = await prisma.product.findMany({
-      where: { status: "published", isActive: true },
-      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-    });
-    return products as Product[];
-  } catch {
-    return [];
-  }
-}
+const getProducts = unstable_cache(
+  async (): Promise<Product[]> => {
+    try {
+      const products = await prisma.product.findMany({
+        where: { status: "published", isActive: true },
+        orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      });
+      return products as Product[];
+    } catch {
+      return [];
+    }
+  },
+  ["products-page"],
+  { tags: ["products"], revalidate: 3600 }
+);
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const cardStyle = product.cardStyle || "standard";

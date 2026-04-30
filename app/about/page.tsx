@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 import { FaHeart, FaCheckCircle, FaUsers, FaLeaf, FaShieldAlt, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const SITE_NAME = "PM सूर्य घर योजना";
@@ -63,17 +64,21 @@ interface TeamMember {
   email: string | null;
 }
 
-async function getAboutData(): Promise<{ page: AboutPageData | null; team: TeamMember[] }> {
-  try {
-    const [page, team] = await Promise.all([
-      prisma.aboutPage.findUnique({ where: { id: "main" } }),
-      prisma.teamMember.findMany({ where: { isActive: true }, orderBy: { order: "asc" } }),
-    ]);
-    return { page: page as AboutPageData | null, team: team as TeamMember[] };
-  } catch {
-    return { page: null, team: [] };
-  }
-}
+const getAboutData = unstable_cache(
+  async (): Promise<{ page: AboutPageData | null; team: TeamMember[] }> => {
+    try {
+      const [page, team] = await Promise.all([
+        prisma.aboutPage.findUnique({ where: { id: "main" } }),
+        prisma.teamMember.findMany({ where: { isActive: true }, orderBy: { order: "asc" } }),
+      ]);
+      return { page: page as AboutPageData | null, team: team as TeamMember[] };
+    } catch {
+      return { page: null, team: [] };
+    }
+  },
+  ["about-page"],
+  { tags: ["about", "team"], revalidate: 3600 }
+);
 
 const valueColorClasses: Record<string, string> = {
   saffron: "text-saffron-500",

@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 import { FaSolarPanel, FaBroom, FaWrench, FaBolt, FaBatteryFull, FaTools } from "react-icons/fa";
 
 const SITE_NAME = "PM सूर्य घर योजना";
@@ -34,17 +35,21 @@ interface Service {
   ctaLink: string | null;
 }
 
-async function getServices(): Promise<Service[]> {
-  try {
-    const services = await prisma.service.findMany({
-      where: { status: "published", isActive: true },
-      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-    });
-    return services as Service[];
-  } catch {
-    return [];
-  }
-}
+const getServices = unstable_cache(
+  async (): Promise<Service[]> => {
+    try {
+      const services = await prisma.service.findMany({
+        where: { status: "published", isActive: true },
+        orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      });
+      return services as Service[];
+    } catch {
+      return [];
+    }
+  },
+  ["services-page"],
+  { tags: ["services"], revalidate: 3600 }
+);
 
 const iconColorClasses: Record<string, string> = {
   saffron: "text-saffron-500",
